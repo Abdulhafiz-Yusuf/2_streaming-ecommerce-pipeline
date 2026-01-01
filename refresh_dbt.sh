@@ -4,6 +4,7 @@
 cd ~/projects/PORTFOLIO_PROJECTS/2_streaming-ecommerce-pipeline/dbt_ecommerce_analytics
 
 echo "🔄 Refreshing dbt models..."
+source ~/.venvs/data_eng/bin/activate
 dbt run --select silver+  # Run silver and downstream models
 
 if [ $? -eq 0 ]; then
