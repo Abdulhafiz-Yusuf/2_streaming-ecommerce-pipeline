@@ -1,0 +1,41 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: Bronze layer - raw streaming events from Kafka
+    database: de_db
+    schema: bronze
+    tables:
+      - name: clickstream_events
+        description: Raw clickstream events
+        columns:
+          - name: event_id
+            description: Unique event identifier
+            tests:
+              - unique
+              - not_null
+          - name: event_timestamp
+            description: When the event occurred
+            tests:
+              - not_null
+          - name: user_id
+            tests:
+              - not_null
+          - name: event_type
+            tests:
+              - accepted_values:
+                  values: ['page_view', 'add_to_cart', 'purchase']
+
+models:
+  - name: stg_clickstream_events
+    description: Cleaned and deduplicated clickstream events
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: revenue
+        description: Revenue generated (purchases only)
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"

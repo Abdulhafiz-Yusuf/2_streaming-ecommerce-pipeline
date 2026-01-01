@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: mart_daily_metrics
+    description: Daily aggregated business metrics
+    columns:
+      - name: event_date
+        tests:
+          - unique
+          - not_null
+      - name: total_revenue
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: overall_conversion_rate
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "between 0 and 100"
+
+  - name: mart_conversion_funnel
+    description: User journey conversion funnel
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - funnel_stage
+            - stage_order
+
+  - name: mart_product_performance
+    description: Product-level analytics
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: total_revenue
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "> 0"
