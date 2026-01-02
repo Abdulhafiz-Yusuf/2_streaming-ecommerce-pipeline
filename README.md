@@ -5,13 +5,15 @@ A real-time data pipeline for processing e-commerce clickstream events using Apa
 
 ## Architecture
 
-![Architecture Diagram](docs/streaming_pipeline.drawio.png)
+![Architecture Diagram](docs/streaming_pipeline.jpg)
 
 - **Producer**: Generates synthetic e-commerce events to Kafka
 - **Consumer**: Spark Streaming application that processes events in real-time
+- **Streaming:** Apache Kafka (Redpanda)
 - **Data Warehouse**: PostgreSQL for storing raw and transformed data
 - **Transformation**: dbt for building analytics models (silver and gold layers)
 - **Orchestration**: Docker Compose for local development
+- **Visualization:** Streamlit
 
 ## Project Structure
 
